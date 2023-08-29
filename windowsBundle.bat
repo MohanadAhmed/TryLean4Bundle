@@ -1,5 +1,5 @@
 @ECHO OFF
-
+GOTO BUNDLE
 ::::::::::::::::::: Individual Components URLS :::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: TODO: Take care of making versioning dynamic for VSCodium and PortableGit
 
@@ -71,14 +71,15 @@ copy lean-toolchain %DEMOPROJ%\lean-toolchain
 ::::::::::::::::::: Packup everyithng into 7z executable archive :::::::::::::::::::::::::::::::::::
 cd ..
 :: Delete the executables
-:BUNDLE
 del "TryLean4Bundle\git-install.exe"
 del "TryLean4Bundle\vscodium.zip"
 del "TryLean4Bundle\elan-init.sh"
 copy /B TryLean4Bundle\z7z.exe /B z7z.exe
 copy /A "RunLean.bat" /A "TryLean4Bundle\RunLean.bat"
+:BUNDLE
+set /p LEAN_TOOLCHAIN_VERSION=<lean-toolchain
 :: Use Toolchain version and date in filename
 FOR /F "tokens=2,3 delims=/:" %%G IN ("%LEAN_TOOLCHAIN_VERSION%") do set ARXV_NAME=%%G-%%H
 FOR /f "tokens=2-4 delims=:./ " %%G IN ("%date%") DO (SET BUNDDATE=%%I-%%H-%%G)
 echo ".\z7z.exe a -sfx TryLean4Bundle_%ARXV_NAME%_%BUNDDATE%.exe TryLean4Bundle"
-".\z7z.exe" a -sfx "TryLean4Bundle_%ARXV_NAME%_%BUNDDATE%.exe" TryLean4Bundle
+".\z7z.exe" a -bb2 -bt -bsp2 -bso1 -sfx "TryLean4Bundle_%ARXV_NAME%_%BUNDDATE%.exe" TryLean4Bundle
