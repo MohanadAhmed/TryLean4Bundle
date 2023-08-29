@@ -9,10 +9,25 @@ jobs:
     mk-windows-bundle:
         runs-on: windows-2022
         steps:
-            - uses: actions/checkout@v3
-            - run: cmd /c "windowsBundle.bat"
-            - uses: actions/upload-artifact@v3
+            - name: Create Release
+              id: create_release
+              uses: actions/create-release@v1
               with:
-                path: ${{github.workspace}}\TryLean4Bundle*.exe
-                if-no-files-found: error
+                tag_name: ${{ github.ref }}
+                release_name: Release ${{ github.ref }}
+                draft: false
+                prerelease: false
+
+            - name: Checkout Repo
+              uses: actions/checkout@v3
+
+            - name: BundleCreate
+              run: cmd /c "windowsBundle.bat"
+
+            - name: Upload Windows Release
+              uses: softprops/action-gh-release@v1
+              with:
+                fail_on_unmatched_files: true
+                draft: false
+                files: ${{github.workspace}}\TryLean4Bundle*.exe
 
