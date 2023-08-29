@@ -3,6 +3,8 @@ name: create-windows-bundle
 on:
     schedule:
         - cron: "0 0 * * *"
+    workflow_dispatch:
+
 jobs:
     mk-windows-bundle:
         runs-on: windows-2022
