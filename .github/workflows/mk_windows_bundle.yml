@@ -13,5 +13,5 @@ jobs:
             - run: cmd /c "windowsBundle.bat"
             - uses: actions/upload-artifact@v3
               with:
-                path: TryLean4Bundle.exe
+                path: ${{github.workspace}}\TryLean4Bundle.exe
 
