@@ -34,12 +34,10 @@ where tar
 IF NOT EXIST VSCodium mkdir VSCodium
 "C:\Windows\System32\tar.exe" -x -f vscodium.zip -C ".\VSCodium"
 
-if not exist "VSCodium\leanext" (
-    mkdir VSCodium\leanext
-    tar -x -f lean4ext.zip -C ".\VSCodium\leanext"
-    xcopy /E /I ".\VSCodium\leanext\extension" ".\VSCodium\data\extensions\leanprover"
-    rmdir /S /Q ".\VSCodium\leanext"
-)
+IF NOT EXIST VSCodium\leanext mkdir VSCodium\leanext
+"C:\Windows\System32\tar.exe" -x -f lean4ext.zip -C ".\VSCodium\leanext"
+xcopy /E /I ".\VSCodium\leanext\extension" ".\VSCodium\data\extensions\leanprover"
+rmdir /S /Q ".\VSCodium\leanext"
 
 :: TODO: perhaps modification in the RunLean.bat script so that it detects OS version and installs
 :: vc_redist if necessary. VC_Redist installation is necessary when windows is older than build
@@ -64,17 +62,23 @@ IF NOT EXIST ".\PortableGit\bin\bash.exe" echo "NOT FOUND !!!!!! "
 
 ::::::::::::::::::: Create demo Project
 IF EXIST DemoProj rmdir /Q /S DemoProj
-lake new %DEMOPROJ% math
-PortableGit\bin\bash.exe -c "cd %DEMOPROJ% && lake update && lake exe cache get-"
+echo "lake %LEAN_TOOLCHAIN_VERSION% new %DEMOPROJ% math"
+lake "+%LEAN_TOOLCHAIN_VERSION%" new %DEMOPROJ% math
+"PortableGit\bin\bash.exe" -c "cd %DEMOPROJ% && lake update && lake exe cache get-"
+:: Copy the lean-toolchain file because for lake does not create it
+copy lean-toolchain %DEMOPROJ%\lean-toolchain
 
 ::::::::::::::::::: Packup everyithng into 7z executable archive :::::::::::::::::::::::::::::::::::
 cd ..
 :: Delete the executables
+:BUNDLE
 del "TryLean4Bundle\git-install.exe"
 del "TryLean4Bundle\vscodium.zip"
 del "TryLean4Bundle\elan-init.sh"
 copy /B TryLean4Bundle\z7z.exe /B z7z.exe
 copy /A "RunLean.bat" /A "TryLean4Bundle\RunLean.bat"
-FOR /F "tokens=2,3 delims=/:" %G IN ("%LEAN_TOOLCHAIN_VERSION%") do set ARXV_NAME=%G_%H
-echo ".\z7z.exe a -sfx TryLean4Bundle-%ARXV_NAME%.exe TryLean4Bundle"
-".\z7z.exe" a -sfx "TryLean4Bundle-%ARXV_NAME%.exe" TryLean4Bundle
+:: Use Toolchain version and date in filename
+FOR /F "tokens=2,3 delims=/:" %%G IN ("%LEAN_TOOLCHAIN_VERSION%") do set ARXV_NAME=%%G-%%H
+FOR /f "tokens=2-4 delims=:./ " %%G IN ("%date%") DO (SET BUNDDATE=%%I-%%H-%%G)
+echo ".\z7z.exe a -sfx TryLean4Bundle_%ARXV_NAME%_%BUNDDATE%.exe TryLean4Bundle"
+".\z7z.exe" a -sfx "TryLean4Bundle_%ARXV_NAME%_%BUNDDATE%.exe" TryLean4Bundle
