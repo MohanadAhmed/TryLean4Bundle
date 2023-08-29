@@ -12,21 +12,20 @@ jobs:
             - name: Checkout Repo
               uses: actions/checkout@v3
 
-            # - name: BundleCreate
-            #   run: cmd /c "windowsBundle.bat"
-            - name: currentDir
-              run: cmd /c "cd"
+            - name: BundleCreate
+              run: cmd /c "windowsBundle.bat"
 
             - name: showPath
               run: cmd /c "echo ${{github.workspace}};"    
 
             - name: showFiles
               run: cmd /c "dir"
-            # - name: Release for Windows
-            #   uses: "marvinpinto/action-automatic-releases@latest"
-            #   with:
-            #     repo_token: "${{ secrets.GITHUB_TOKEN }}"
-            #     automatic_release_tag: "latest"
-            #     prerelease: true
-            #     files: ${{github.workspace}}\TryLean4Bundle*.exe
+
+            - name: Release for Windows
+              uses: "marvinpinto/action-automatic-releases@latest"
+              with:
+                repo_token: "${{ secrets.GITHUB_TOKEN }}"
+                automatic_release_tag: "latest"
+                prerelease: true
+                files: TryLean4Bundle*.exe
 
