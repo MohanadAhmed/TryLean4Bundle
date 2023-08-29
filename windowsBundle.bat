@@ -1,5 +1,5 @@
 @ECHO OFF
-GOTO :BUNDLE
+
 ::::::::::::::::::: Individual Components URLS :::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: TODO: Take care of making versioning dynamic for VSCodium and PortableGit
 
@@ -77,9 +77,7 @@ del "TryLean4Bundle\elan-init.sh"
 copy /B TryLean4Bundle\z7z.exe /B z7z.exe
 copy /A "RunLean.bat" /A "TryLean4Bundle\RunLean.bat"
 
-:BUNDLE
-:: set /p LEAN_TOOLCHAIN_VERSION=<lean-toolchain
-set /p LEAN_TOOLCHAIN_VERSION="leanprover/lean4:nightly-2023-08-19"
+set /p LEAN_TOOLCHAIN_VERSION=<lean-toolchain
 :: Use Toolchain version and date in filename
 FOR /F "tokens=2,3 delims=/:" %%G IN ("%LEAN_TOOLCHAIN_VERSION%") do set ARXV_NAME=%%G-%%H
 FOR /f "tokens=2-4 delims=:./ " %%G IN ("%date%") DO (SET BUNDDATE=%%I-%%H-%%G)
