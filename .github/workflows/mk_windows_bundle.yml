@@ -21,7 +21,7 @@ jobs:
               run: cmd /c "echo ${{github.workspace}};"    
 
             - name: showFiles
-              run: cmd /c "cd; cd ${{github.workspace}}; dir"
+              run: cmd /c "dir"
             # - name: Release for Windows
             #   uses: "marvinpinto/action-automatic-releases@latest"
             #   with:
