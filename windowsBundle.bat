@@ -1,5 +1,5 @@
 @ECHO OFF
-GOTO BUNDLE
+
 ::::::::::::::::::: Individual Components URLS :::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: TODO: Take care of making versioning dynamic for VSCodium and PortableGit
 
