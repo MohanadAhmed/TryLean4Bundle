@@ -14,6 +14,12 @@ jobs:
 
             # - name: BundleCreate
             #   run: cmd /c "windowsBundle.bat"
+            - name: currentDir
+              run: cmd /c "cd"
+
+            - name: showPath
+              run: cmd /c "echo ${{github.workspace}};"    
+
             - name: showFiles
               run: cmd /c "cd; cd ${{github.workspace}}; dir"
             # - name: Release for Windows
