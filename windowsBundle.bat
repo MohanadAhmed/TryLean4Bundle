@@ -16,7 +16,7 @@ set VSCODE_LEAN4_EXT_URL="https://github.com/leanprover/vscode-lean4/releases/do
 mkdir TryLean4Bundle
 cd TryLean4Bundle
 
-::::::::::::::::::: Download the Components ::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::: Download the Components ::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 curl -L -C - --output "z7z.exe" %Z7Z_URL%
 curl -L -C - --output "git-install.exe" %GIT_URL%
 curl -L -C - --output "vc_redist.x64.exe" %VC_REDIST_URL%
@@ -28,7 +28,7 @@ curl -L -C - --output "lean4ext.zip" %VSCODE_LEAN4_EXT_URL%
 ::::::::::::::::::: Extracting Components ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: Extract Git Portable using 7zip
-:: z7z.exe x "git-install.exe" -o".\PortableGit"
+z7z.exe x "git-install.exe" -o".\PortableGit"
 where tar
 :: Extract VSCodium and  Install vscode-lean4 extension
 IF NOT EXIST VSCodium mkdir VSCodium
@@ -55,8 +55,12 @@ set ELECTRON_EXTRA_LAUNCH_ARGS=--disable-gpu-sandbox
 set DEMOPROJ=DemoProj
 set /p LEAN_TOOLCHAIN_VERSION=<lean-toolchain
 
+cd
 ::::::::::::::::::: Installation of ELAN in Current Folder with Mathlibs Toolchain version
-PortableGit\bin\bash.exe -c "./elan-init.sh -y --no-modify-path --default-toolchain %LEAN_TOOLCHAIN_VERSION%"
+echo "./elan-init.sh -y --no-modify-path --default-toolchain %LEAN_TOOLCHAIN_VERSION%"
+IF EXIST ".\PortableGit\bin\bash.exe" echo "FOUND IT" 
+IF NOT EXIST ".\PortableGit\bin\bash.exe" echo "NOT FOUND !!!!!! " 
+".\PortableGit\bin\bash.exe" -c "./elan-init.sh -y --no-modify-path --default-toolchain %LEAN_TOOLCHAIN_VERSION%"
 
 ::::::::::::::::::: Create demo Project
 IF EXIST DemoProj rmdir /Q /S DemoProj
@@ -66,6 +70,9 @@ PortableGit\bin\bash.exe -c "cd %DEMOPROJ% && lake update && lake exe cache get-
 ::::::::::::::::::: Packup everyithng into 7z executable archive :::::::::::::::::::::::::::::::::::
 cd ..
 :: Delete the executables
-copy TryLean4Bundle/z7z.exe z7z.exe
-copy RunLean.bat TryLean4Bundle/RunLean.bat
-z7z.exe a -sfx "TryLean4Bundle.exe" TryLean4Bundle
+del "TryLean4Bundle\git-install.exe"
+del "TryLean4Bundle\vscodium.zip"
+del "TryLean4Bundle\elan-init.sh"
+copy /B TryLean4Bundle\z7z.exe /B z7z.exe
+copy /A "RunLean.bat" /A "TryLean4Bundle\RunLean.bat"
+".\z7z.exe" a -sfx "TryLean4Bundle.exe" TryLean4Bundle
