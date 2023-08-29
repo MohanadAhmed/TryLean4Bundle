@@ -15,7 +15,7 @@ jobs:
             # - name: BundleCreate
             #   run: cmd /c "windowsBundle.bat"
             - name: showFiles
-              run: cmd /c "cd ${{github.workspace}}; dir"
+              run: cmd /c "cd; cd ${{github.workspace}}; dir"
             # - name: Release for Windows
             #   uses: "marvinpinto/action-automatic-releases@latest"
             #   with:
