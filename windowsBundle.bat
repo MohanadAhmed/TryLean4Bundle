@@ -28,13 +28,11 @@ curl -L -C - --output "lean4ext.zip" %VSCODE_LEAN4_EXT_URL%
 ::::::::::::::::::: Extracting Components ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: Extract Git Portable using 7zip
-z7z.exe x "git-install.exe" -o".\PortableGit"
-
+:: z7z.exe x "git-install.exe" -o".\PortableGit"
+where tar
 :: Extract VSCodium and  Install vscode-lean4 extension
-if not exist "VSCodium" (
-    mkdir VSCodium
-    tar -x -f vscodium.zip -C ".\VSCodium"
-)
+IF NOT EXIST VSCodium mkdir VSCodium
+"C:\Windows\System32\tar.exe" -x -f vscodium.zip -C ".\VSCodium"
 
 if not exist "VSCodium\leanext" (
     mkdir VSCodium\leanext
@@ -50,7 +48,7 @@ if not exist "VSCodium\leanext" (
 
 :: Control Elan's location by ELAN_HOME and Cache Location by XDG_CACHE_HOME
 ::::::::::::::::::: Prepare Environment Variables and Clean Path
-set Path=C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;%CD%;%CD%\PortableGit\bin\;%CD%\Elan\bin\
+set Path=%Path%;%CD%;%CD%\PortableGit\bin\;%CD%\Elan\bin\
 set ELAN_HOME=%CD%\Elan
 set XDG_CACHE_HOME=%CD%\Cache
 set ELECTRON_EXTRA_LAUNCH_ARGS=--disable-gpu-sandbox
@@ -61,9 +59,13 @@ set /p LEAN_TOOLCHAIN_VERSION=<lean-toolchain
 PortableGit\bin\bash.exe -c "./elan-init.sh -y --no-modify-path --default-toolchain %LEAN_TOOLCHAIN_VERSION%"
 
 ::::::::::::::::::: Create demo Project
+IF EXIST DemoProj rmdir /Q /S DemoProj
 lake new %DEMOPROJ% math
 PortableGit\bin\bash.exe -c "cd %DEMOPROJ% && lake update && lake exe cache get-"
 
 ::::::::::::::::::: Packup everyithng into 7z executable archive :::::::::::::::::::::::::::::::::::
 cd ..
+:: Delete the executables
 copy TryLean4Bundle/z7z.exe z7z.exe
+copy RunLean.bat TryLean4Bundle/RunLean.bat
+z7z.exe a -sfx "TryLean4Bundle.exe" TryLean4Bundle
