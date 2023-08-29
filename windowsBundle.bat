@@ -75,4 +75,6 @@ del "TryLean4Bundle\vscodium.zip"
 del "TryLean4Bundle\elan-init.sh"
 copy /B TryLean4Bundle\z7z.exe /B z7z.exe
 copy /A "RunLean.bat" /A "TryLean4Bundle\RunLean.bat"
-".\z7z.exe" a -sfx "TryLean4Bundle.exe" TryLean4Bundle
+FOR /F "tokens=2,3 delims=/:" %G IN ("%LEAN_TOOLCHAIN_VERSION%") do set ARXV_NAME=%G_%H
+echo ".\z7z.exe a -sfx TryLean4Bundle-%ARXV_NAME%.exe TryLean4Bundle"
+".\z7z.exe" a -sfx "TryLean4Bundle-%ARXV_NAME%.exe" TryLean4Bundle

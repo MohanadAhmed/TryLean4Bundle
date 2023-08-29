@@ -1,0 +1,15 @@
+
+name: create-windows-bundle
+on:
+    schedule:
+        - cron: "0 0 * * *"
+jobs:
+    mk-windows-bundle:
+        runs-on: windows-2022
+        steps:
+            - uses: actions/checkout@v3
+            - run: cmd /c "windowsBundle.bat"
+            - uses: actions/upload-artifact@v3
+              with:
+                path: TryLean4Bundle.exe
+
