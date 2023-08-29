@@ -14,11 +14,12 @@ jobs:
 
             - name: BundleCreate
               run: cmd /c "windowsBundle.bat"
-
-            - name: Upload Windows Release
-              uses: softprops/action-gh-release@v1
+            
+            - name: Release for Windows
+              uses: "marvinpinto/action-automatic-releases@latest"
               with:
-                fail_on_unmatched_files: true
-                draft: false
+                repo_token: "${{ secrets.GITHUB_TOKEN }}"
+                automatic_release_tag: "latest"
+                prerelease: true
                 files: ${{github.workspace}}\TryLean4Bundle*.exe
 
