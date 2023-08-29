@@ -1,5 +1,5 @@
 @ECHO OFF
-
+GOTO :BUNDLE
 ::::::::::::::::::: Individual Components URLS :::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: TODO: Take care of making versioning dynamic for VSCodium and PortableGit
 
@@ -17,10 +17,10 @@ mkdir TryLean4Bundle
 cd TryLean4Bundle
 
 ::::::::::::::::::::: Download the Components ::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+curl -L -C - --output "lean-toolchain" %MATHLIB_LEAN_TOOLCHAIN_URL%
 curl -L -C - --output "z7z.exe" %Z7Z_URL%
 curl -L -C - --output "git-install.exe" %GIT_URL%
 curl -L -C - --output "vc_redist.x64.exe" %VC_REDIST_URL%
-curl -L -C - --output "lean-toolchain" %MATHLIB_LEAN_TOOLCHAIN_URL%
 curl -L -C - --output "elan-init.sh" %ELAN_INSTALLER_URL%
 curl -L -C - --output "vscodium.zip" %VSCODIUM_URL%
 curl -L -C - --output "lean4ext.zip" %VSCODE_LEAN4_EXT_URL%
@@ -76,8 +76,10 @@ del "TryLean4Bundle\vscodium.zip"
 del "TryLean4Bundle\elan-init.sh"
 copy /B TryLean4Bundle\z7z.exe /B z7z.exe
 copy /A "RunLean.bat" /A "TryLean4Bundle\RunLean.bat"
+
 :BUNDLE
-set /p LEAN_TOOLCHAIN_VERSION=<lean-toolchain
+:: set /p LEAN_TOOLCHAIN_VERSION=<lean-toolchain
+set /p LEAN_TOOLCHAIN_VERSION="leanprover/lean4:nightly-2023-08-19"
 :: Use Toolchain version and date in filename
 FOR /F "tokens=2,3 delims=/:" %%G IN ("%LEAN_TOOLCHAIN_VERSION%") do set ARXV_NAME=%%G-%%H
 FOR /f "tokens=2-4 delims=:./ " %%G IN ("%date%") DO (SET BUNDDATE=%%I-%%H-%%G)
