@@ -10,7 +10,7 @@ set DEMOPROJ=DemoProj
 set /p LEAN_TOOLCHAIN_VERSION=<lean-toolchain
 
 ::::::::::::::::::: Star New Project in VSCodium
-cd %DEMOPROJ%
+cd mathematics_in_lean
 lake exe cache unpack
 cd ..
-VSCodium\VSCodium.exe %DEMOPROJ%
+VSCodium\VSCodium.exe mathematics_in_lean

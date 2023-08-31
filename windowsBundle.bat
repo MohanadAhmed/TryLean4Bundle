@@ -68,6 +68,11 @@ lake "+%LEAN_TOOLCHAIN_VERSION%" new %DEMOPROJ% math
 :: Copy the lean-toolchain file because for lake does not create it
 copy lean-toolchain %DEMOPROJ%\lean-toolchain
 
+::::::::::::::::::: Add Mathematics in Lean Repo to Bundle
+".\PortableGit\bin\git.exe" clone "https://github.com/leanprover-community/mathematics_in_lean"
+copy lean-toolchain mathematics_in_lean\lean-toolchain
+"PortableGit\bin\bash.exe" -c "cd mathematics_in_lean && lake update && lake exe cache get-"
+
 ::::::::::::::::::: Packup everyithng into 7z executable archive :::::::::::::::::::::::::::::::::::
 cd ..
 :: Delete the executables
