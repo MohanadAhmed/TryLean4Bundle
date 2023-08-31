@@ -5,6 +5,8 @@ on:
 
 jobs:
     validate_bundle:
+        env:  
+          GH_TOKEN: ${{ github.token }}
         runs-on: windows-2022
         steps:
             - name: Download-Bundle
