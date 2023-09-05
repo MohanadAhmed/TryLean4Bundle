@@ -13,13 +13,14 @@ set MATHLIB_LEAN_TOOLCHAIN_URL="https://raw.githubusercontent.com/leanprover-com
 set ELAN_INSTALLER_URL="https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh"
 set VSCODE_LEAN4_EXT_URL="https://github.com/leanprover/vscode-lean4/releases/download/v0.0.108/lean4-0.0.108.vsix"
 
-GOTO BUNDLE
 mkdir TryLean4Bundle
 cd TryLean4Bundle
 
 ::::::::::::::::::::: Download the Components ::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 curl -L -C - --output "lean-toolchain" %MATHLIB_LEAN_TOOLCHAIN_URL%
 curl -L -C - --output "z7z.exe" %Z7Z_URL%
+cd ..
+GOTO BUNDLE
 curl -L -C - --output "git-install.exe" %GIT_URL%
 curl -L -C - --output "vc_redist.x64.exe" %VC_REDIST_URL%
 curl -L -C - --output "elan-init.sh" %ELAN_INSTALLER_URL%
