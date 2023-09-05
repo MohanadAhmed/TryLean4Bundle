@@ -42,7 +42,9 @@ jobs:
               working-directory: ${{ runner.temp }}
 
             - name: Expand-7zsfx-archive
-              run: TryLean4Bundle.exe -o"TryLean4BundleExpanded" -y
+              run: |
+                $xpath =  Resolve-Path .\TryLean4Bundle*.exe -Relative
+                Invoke-Expression "$xpath -o""TryLean4Bundle"" -y"
               working-directory: ${{ runner.temp }}
 
             - name: showContents
