@@ -25,6 +25,7 @@ curl -L -C - --output "elan-init.sh" %ELAN_INSTALLER_URL%
 curl -L -C - --output "vscodium.zip" %VSCODIUM_URL%
 curl -L -C - --output "lean4ext.zip" %VSCODE_LEAN4_EXT_URL%
 
+GOTO BUNDLE
 ::::::::::::::::::: Extracting Components ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: Extract Git Portable using 7zip

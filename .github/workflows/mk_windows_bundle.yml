@@ -32,17 +32,20 @@ jobs:
         runs-on: windows-latest
         steps:
             - uses: actions/download-artifact@v3
+              id: download
               with:
                 name: TryLean4Bundle.exe
+                path: ${{ runner.temp }}
 
             - name: Expand-7zsfx-archive
               run: TryLean4Bundle.exe -o"TryLean4BundleExpanded" -y
+              working-directory: ${{ runner.temp }}
 
             - name: showContents
               run: |
                 cd TryLean4BundleExpanded
                 dir
-                
+
 
             # - name: Release for Windows
             #   uses: "marvinpinto/action-automatic-releases@latest"
