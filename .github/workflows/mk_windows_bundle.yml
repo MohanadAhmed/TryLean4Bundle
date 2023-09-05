@@ -68,4 +68,4 @@ jobs:
                 Elan\bin\lean --version
                 PortableGit\bin\git.exe --version
                 VSCodium\bin\codium.cmd --list-extensions
-              working-directory: ${{ runner.temp
+              working-directory: ${{ runner.temp }} 
