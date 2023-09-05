@@ -1,0 +1,39 @@
+name: create-win-bundle
+on:
+  workflow_dispatch
+
+jobs:
+  mk-win-bundle:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Download Sources
+        run: |
+          mkdir TryLean4Bundle
+          cd TryLean4Bundle
+          C:\Windows\System32\curl.exe -L -C - --output "lean-toolchain" %MATHLIB_LEAN_TOOLCHAIN_URL%
+          C:\Windows\System32\curl.exe -L -C - --output "z7z.exe" %Z7Z_URL%
+          C:\Windows\System32\curl.exe -L -C - --output "git-install.exe" %GIT_URL%
+          C:\Windows\System32\curl.exe -L -C - --output "vc_redist.x64.exe" %VC_REDIST_URL%
+          C:\Windows\System32\curl.exe -L -C - --output "elan-init.sh" %ELAN_INSTALLER_URL%
+          C:\Windows\System32\curl.exe -L -C - --output "vscodium.zip" %VSCODIUM_URL%
+          C:\Windows\System32\curl.exe -L -C - --output "lean4ext.zip" %VSCODE_LEAN4_EXT_URL%
+      - name: Expand Git | VSCodium | Lean4 VSCode Extension
+        run: |
+          cd TryLean4Bundle
+          z7z.exe x "git-install.exe" -o".\PortableGit"
+          "C:\Windows\System32\tar.exe" -x -f vscodium.zip -C ".\VSCodium"
+          "C:\Windows\System32\tar.exe" -x -f lean4ext.zip -C ".\VSCodium\leanext"
+          cmd /c " xcopy /E /I "".\VSCodium\leanext\extension"" "".\VSCodium\data\extensions\leanprover"" "
+          rmdir -Recurse -Force ".\VSCodium\leanext"
+        
+      - name: 
+
+
+  validate-win-bundle:
+    runs-on: windows-latest
+
+  release-win-bundle:
+    runs-on: windows-latest
