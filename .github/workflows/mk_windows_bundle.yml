@@ -57,13 +57,13 @@ jobs:
 
             - name: showContents
               run: |
-                cd TryLean4BundleExpanded
+                cd TryLean4BundleExpanded\TryLean4Bundle
                 dir
               working-directory: ${{ runner.temp }}
 
             - name: CheckExecs
               run: |
-                cd TryLean4BundleExpanded
+                cd TryLean4BundleExpanded\TryLean4Bundle
                 Elan\bin\lake --version
                 Elan\bin\lean --version
                 PortableGit\bin\git.exe --version
