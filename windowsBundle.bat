@@ -19,9 +19,6 @@ cd TryLean4Bundle
 ::::::::::::::::::::: Download the Components ::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 curl -L -C - --output "lean-toolchain" %MATHLIB_LEAN_TOOLCHAIN_URL%
 curl -L -C - --output "z7z.exe" %Z7Z_URL%
-cd ..
-copy /B TryLean4Bundle\z7z.exe /B z7z.exe
-GOTO BUNDLE
 curl -L -C - --output "git-install.exe" %GIT_URL%
 curl -L -C - --output "vc_redist.x64.exe" %VC_REDIST_URL%
 curl -L -C - --output "elan-init.sh" %ELAN_INSTALLER_URL%
