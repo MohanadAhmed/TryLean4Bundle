@@ -87,4 +87,4 @@ set /p LEAN_TOOLCHAIN_VERSION=<TryLean4Bundle\lean-toolchain
 FOR /F "tokens=2,3 delims=/:" %%G IN ("%LEAN_TOOLCHAIN_VERSION%") do set ARXV_NAME=%%G-%%H
 FOR /f "tokens=2-4 delims=:./ " %%G IN ("%date%") DO (SET BUNDDATE=%%I-%%H-%%G)
 echo ".\z7z.exe a -sfx TryLean4Bundle_%ARXV_NAME%_%BUNDDATE%.exe TryLean4Bundle"
-".\z7z.exe" a -sfx "TryLean4Bundle_%ARXV_NAME%_%BUNDDATE%.exe" Readme.md
+".\z7z.exe" a -sfx "TryLean4Bundle_%ARXV_NAME%_%BUNDDATE%.exe" TryLean4Bundle
