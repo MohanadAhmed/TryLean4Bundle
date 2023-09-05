@@ -6,29 +6,29 @@ on:
     workflow_dispatch:
 
 jobs:
-    # mk-windows-bundle:
-    #     runs-on: windows-2022
-    #     steps:
-    #         - name: Checkout Repo
-    #           uses: actions/checkout@v3
+    mk-windows-bundle:
+        runs-on: windows-2022
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v3
 
-    #         - name: BundleCreate
-    #           run: cmd /c "windowsBundle.bat"
+            - name: BundleCreate
+              run: cmd /c "windowsBundle.bat"
 
-    #         - name: showPath
-    #           run: cmd /c "echo ${{github.workspace}};"    
+            - name: showPath
+              run: cmd /c "echo ${{github.workspace}};"    
 
-    #         - name: showFiles
-    #           run: cmd /c "dir"
+            - name: showFiles
+              run: cmd /c "dir"
             
-    #         - uses: actions/upload-artifact@v3
-    #           with:
-    #             name: TryLean4Bundle.exe
-    #             path: TryLean4Bundle*.exe
-    #             if-no-files-found: error
+            - uses: actions/upload-artifact@v3
+              with:
+                name: TryLean4Bundle.exe
+                path: TryLean4Bundle*.exe
+                if-no-files-found: error
 
     validate-windows-bundle:
-        # needs: mk-windows-bundle
+        needs: mk-windows-bundle
         runs-on: windows-latest
         steps:
             - uses: actions/download-artifact@v3
