@@ -26,14 +26,6 @@ jobs:
                 name: TryLean4Bundle.exe
                 path: TryLean4Bundle*.exe
                 if-no-files-found: error
-                
-            - name: Release for Windows
-              uses: "marvinpinto/action-automatic-releases@latest"
-              with:
-                repo_token: "${{ secrets.GITHUB_TOKEN }}"
-                automatic_release_tag: "latest"
-                prerelease: true
-                files: TryLean4Bundle*.exe
 
     validate-windows-bundle:
         needs: mk-windows-bundle
@@ -69,3 +61,11 @@ jobs:
                 PortableGit\bin\git.exe --version
                 VSCodium\bin\codium.cmd --list-extensions
               working-directory: ${{ runner.temp }} 
+
+            - name: Release for Windows
+              uses: "marvinpinto/action-automatic-releases@latest"
+              with:
+                repo_token: "${{ secrets.GITHUB_TOKEN }}"
+                automatic_release_tag: "latest"
+                prerelease: true
+                files: ${{ runner.temp }}\TryLean4Bundle*.exe
