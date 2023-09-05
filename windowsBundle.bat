@@ -12,6 +12,7 @@ set VSCODIUM_URL="https://github.com/VSCodium/vscodium/releases/download/1.81.0.
 set MATHLIB_LEAN_TOOLCHAIN_URL="https://raw.githubusercontent.com/leanprover-community/mathlib4/master/lean-toolchain"
 set ELAN_INSTALLER_URL="https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh"
 set VSCODE_LEAN4_EXT_URL="https://github.com/leanprover/vscode-lean4/releases/download/v0.0.108/lean4-0.0.108.vsix"
+set PDFREADER_EXT_URL="https://marketplace.visualstudio.com/_apis/public/gallery/publishers/tomoki1207/vsextensions/pdf/1.2.2/vspackage"
 
 mkdir TryLean4Bundle
 cd TryLean4Bundle
@@ -24,6 +25,7 @@ curl -L -C - --output "vc_redist.x64.exe" %VC_REDIST_URL%
 curl -L -C - --output "elan-init.sh" %ELAN_INSTALLER_URL%
 curl -L -C - --output "vscodium.zip" %VSCODIUM_URL%
 curl -L -C - --output "lean4ext.zip" %VSCODE_LEAN4_EXT_URL%
+curl -L -C - --output "pdfext.zip" %PDFREADER_EXT_URL%
 
 ::::::::::::::::::: Extracting Components ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -38,6 +40,11 @@ IF NOT EXIST VSCodium\leanext mkdir VSCodium\leanext
 "C:\Windows\System32\tar.exe" -x -f lean4ext.zip -C ".\VSCodium\leanext"
 xcopy /E /I ".\VSCodium\leanext\extension" ".\VSCodium\data\extensions\leanprover"
 rmdir /S /Q ".\VSCodium\leanext"
+
+IF NOT EXIST VSCodium\tomoki1207.pdf-1.2.2 mkdir VSCodium\tomoki1207.pdf-1.2.2
+"C:\Windows\System32\tar.exe" -x -f pdfext.zip -C ".\VSCodium\tomoki1207.pdf-1.2.2"
+xcopy /E /I ".\VSCodium\tomoki1207.pdf-1.2.2\extension" ".\VSCodium\data\extensions\tomoki1207.pdf-1.2.2"
+rmdir /S /Q ".\VSCodium\tomoki1207.pdf-1.2.2"
 
 :: TODO: perhaps modification in the RunLean.bat script so that it detects OS version and installs
 :: vc_redist if necessary. VC_Redist installation is necessary when windows is older than build
