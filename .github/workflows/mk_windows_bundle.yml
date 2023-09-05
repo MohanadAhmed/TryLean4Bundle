@@ -20,12 +20,35 @@ jobs:
 
             - name: showFiles
               run: cmd /c "dir"
-
-            - name: Release for Windows
-              uses: "marvinpinto/action-automatic-releases@latest"
+            
+            - uses: actions/upload-artifact@v3
               with:
-                repo_token: "${{ secrets.GITHUB_TOKEN }}"
-                automatic_release_tag: "latest"
-                prerelease: true
-                files: TryLean4Bundle*.exe
+                name: TryLean4Bundle.exe
+                path: TryLean4Bundle*.exe
+                if-no-files-found: error
+  
+    validate-windows-bundle:
+        needs: mk-windows-bundle
+        runs-on: windows-latest
+        steps:
+            - uses: actions/download-artifact@v3
+              with:
+                name: TryLean4Bundle.exe
+
+            - name: Expand-7zsfx-archive
+              run: TryLean4Bundle.exe -o"TryLean4BundleExpanded" -y
+
+            - name: showContents
+              run: |
+                cd TryLean4BundleExpanded
+                dir
+                
+
+            # - name: Release for Windows
+            #   uses: "marvinpinto/action-automatic-releases@latest"
+            #   with:
+            #     repo_token: "${{ secrets.GITHUB_TOKEN }}"
+            #     automatic_release_tag: "latest"
+            #     prerelease: true
+            #     files: TryLean4Bundle*.exe
 
