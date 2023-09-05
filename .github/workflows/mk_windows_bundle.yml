@@ -37,6 +37,10 @@ jobs:
                 name: TryLean4Bundle.exe
                 path: ${{ runner.temp }}
 
+            - name: showFlies
+              run: dir
+              working-directory: ${{ runner.temp }}
+
             - name: Expand-7zsfx-archive
               run: TryLean4Bundle.exe -o"TryLean4BundleExpanded" -y
               working-directory: ${{ runner.temp }}
