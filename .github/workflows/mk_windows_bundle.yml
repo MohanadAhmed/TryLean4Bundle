@@ -51,6 +51,7 @@ jobs:
               run: |
                 cd TryLean4BundleExpanded
                 dir
+              working-directory: ${{ runner.temp }}
 
 
             # - name: Release for Windows
