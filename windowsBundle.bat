@@ -30,7 +30,7 @@ curl -L -C - --output "pdfext.zip" %PDFREADER_EXT_URL%
 ::::::::::::::::::: Extracting Components ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: Extract Git Portable using 7zip
-z7z.exe x "git-install.exe" -o".\PortableGit"
+
 where tar
 :: Extract VSCodium and  Install vscode-lean4 extension
 IF NOT EXIST VSCodium mkdir VSCodium
@@ -41,11 +41,13 @@ IF NOT EXIST VSCodium\leanext mkdir VSCodium\leanext
 xcopy /E /I ".\VSCodium\leanext\extension" ".\VSCodium\data\extensions\leanprover"
 rmdir /S /Q ".\VSCodium\leanext"
 
-IF NOT EXIST VSCodium\tomoki1207.pdf-1.2.2 mkdir VSCodium\tomoki1207.pdf-1.2.2
-"C:\Windows\System32\tar.exe" -x -f pdfext.zip -C ".\VSCodium\tomoki1207.pdf-1.2.2"
-xcopy /E /I ".\VSCodium\tomoki1207.pdf-1.2.2\extension" ".\VSCodium\data\extensions\tomoki1207.pdf-1.2.2"
-rmdir /S /Q ".\VSCodium\tomoki1207.pdf-1.2.2"
+@REM IF NOT EXIST VSCodium\tomoki1207.pdf-1.2.2 mkdir VSCodium\tomoki1207.pdf-1.2.2
+@REM "C:\Windows\System32\tar.exe" -x -f pdfext.zip -C ".\VSCodium\tomoki1207.pdf-1.2.2"
+@REM xcopy /E /I ".\VSCodium\tomoki1207.pdf-1.2.2\extension" ".\VSCodium\data\extensions\tomoki1207.pdf-1.2.2"
+@REM rmdir /S /Q ".\VSCodium\tomoki1207.pdf-1.2.2"
+VSCodium\bin\codium.cmd --install-extension  tomoki1207.pdf
 
+z7z.exe x "git-install.exe" -o".\PortableGit"
 :: TODO: perhaps modification in the RunLean.bat script so that it detects OS version and installs
 :: vc_redist if necessary. VC_Redist installation is necessary when windows is older than build
 :: 18xxx (check version to make sure!!!)
