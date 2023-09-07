@@ -36,16 +36,19 @@ where tar
 IF NOT EXIST VSCodium mkdir VSCodium
 "C:\Windows\System32\tar.exe" -x -f vscodium.zip -C ".\VSCodium"
 
-IF NOT EXIST VSCodium\leanext mkdir VSCodium\leanext
-"C:\Windows\System32\tar.exe" -x -f lean4ext.zip -C ".\VSCodium\leanext"
-xcopy /E /I ".\VSCodium\leanext\extension" ".\VSCodium\data\extensions\leanprover"
-rmdir /S /Q ".\VSCodium\leanext"
+::@REM IF NOT EXIST VSCodium\leanext mkdir VSCodium\leanext
+::@REM "C:\Windows\System32\tar.exe" -x -f lean4ext.zip -C ".\VSCodium\leanext"
+::@REM xcopy /E /I ".\VSCodium\leanext\extension" ".\VSCodium\data\extensions\leanprover"
+::@REM rmdir /S /Q ".\VSCodium\leanext"
 
-@REM IF NOT EXIST VSCodium\tomoki1207.pdf-1.2.2 mkdir VSCodium\tomoki1207.pdf-1.2.2
-@REM "C:\Windows\System32\tar.exe" -x -f pdfext.zip -C ".\VSCodium\tomoki1207.pdf-1.2.2"
-@REM xcopy /E /I ".\VSCodium\tomoki1207.pdf-1.2.2\extension" ".\VSCodium\data\extensions\tomoki1207.pdf-1.2.2"
-@REM rmdir /S /Q ".\VSCodium\tomoki1207.pdf-1.2.2"
-VSCodium\bin\codium.cmd --install-extension  tomoki1207.pdf
+::@REM IF NOT EXIST VSCodium\tomoki1207.pdf-1.2.2 mkdir VSCodium\tomoki1207.pdf-1.2.2
+::@REM "C:\Windows\System32\tar.exe" -x -f pdfext.zip -C ".\VSCodium\tomoki1207.pdf-1.2.2"
+::@REM xcopy /E /I ".\VSCodium\tomoki1207.pdf-1.2.2\extension" ".\VSCodium\data\extensions\tomoki1207.pdf-1.2.2"
+::@REM rmdir /S /Q ".\VSCodium\tomoki1207.pdf-1.2.2"
+
+
+VSCodium\bin\codium.cmd --install-extension leanprover.lean4
+VSCodium\bin\codium.cmd --install-extension tomoki1207.pdf
 
 z7z.exe x "git-install.exe" -o".\PortableGit"
 :: TODO: perhaps modification in the RunLean.bat script so that it detects OS version and installs
