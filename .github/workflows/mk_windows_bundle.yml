@@ -19,10 +19,7 @@ jobs:
               run: cmd /c "echo ${{github.workspace}};"    
 
             - name: showFiles
-              run: |
-                cmd /c "dir"
-                cmd /c "cd TryLean4Bundle; dir"
-
+              run: cmd /c "dir"
             
             - uses: actions/upload-artifact@v3
               with:
