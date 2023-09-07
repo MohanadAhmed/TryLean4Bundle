@@ -48,7 +48,7 @@ rmdir /S /Q ".\VSCodium\leanext"
 
 
 :: VSCodium\bin\codium.cmd --install-extension leanprover.lean4
-VSCodium\bin\codium.cmd --install-extension tomoki1207.pdf
+:: VSCodium\bin\codium.cmd --install-extension tomoki1207.pdf
 
 z7z.exe x "git-install.exe" -o".\PortableGit"
 :: TODO: perhaps modification in the RunLean.bat script so that it detects OS version and installs
