@@ -70,7 +70,6 @@ jobs:
         id: download
         with:
           name: TryLean4Bundle.exe
-          path: ${{ runner.temp }}
 
       - name: showLoc
         run : echo ${{steps.download.outputs.download-path}}
@@ -84,4 +83,4 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
           prerelease: true
-          files: ${{steps.download.outputs.download-path}}\TryLean4Bundle*.exe
+          files: TryLean4Bundle*.exe
