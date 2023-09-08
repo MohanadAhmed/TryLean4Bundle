@@ -12,8 +12,8 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
 
-      # - name: BundleCreate
-      #   run: cmd /c "windowsBundle.bat"
+      - name: BundleCreate
+        run: cmd /c "windowsBundle.bat"
 
       - name: showPath
         run: cmd /c "echo ${{github.workspace}};"    
