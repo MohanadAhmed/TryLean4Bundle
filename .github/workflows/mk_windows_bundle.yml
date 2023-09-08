@@ -47,20 +47,20 @@ jobs:
           Invoke-Expression "$xpath -o""TryLean4BundleExpanded"" -y"
         working-directory: ${{ runner.temp }}
 
-      - name: showContents
-        run: |
-          cd TryLean4BundleExpanded\TryLean4Bundle
-          dir
-        working-directory: ${{ runner.temp }}
+      # - name: showContents
+      #   run: |
+      #     cd TryLean4BundleExpanded\TryLean4Bundle
+      #     dir
+      #   working-directory: ${{ runner.temp }}
 
-      - name: CheckExecs
-        run: |
-          cd TryLean4BundleExpanded\TryLean4Bundle
-          Elan\bin\lake --version
-          Elan\bin\lean --version
-          PortableGit\bin\git.exe --version
-          VSCodium\bin\codium.cmd --list-extensions
-        working-directory: ${{ runner.temp }} 
+      # - name: CheckExecs
+      #   run: |
+      #     cd TryLean4BundleExpanded\TryLean4Bundle
+      #     Elan\bin\lake --version
+      #     Elan\bin\lean --version
+      #     PortableGit\bin\git.exe --version
+      #     VSCodium\bin\codium.cmd --list-extensions
+      #   working-directory: ${{ runner.temp }} 
 
   release-windows-bundle:
     needs: validate-windows-bundle
