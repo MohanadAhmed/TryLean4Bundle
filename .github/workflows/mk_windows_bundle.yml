@@ -1,71 +1,84 @@
 
 name: create-windows-bundle
 on:
-    schedule:
-        - cron: "0 0 * * *"
-    workflow_dispatch:
+  schedule:
+      - cron: "0 0 * * *"
+  workflow_dispatch:
 
 jobs:
-    mk-windows-bundle:
-        runs-on: windows-2022
-        steps:
-            - name: Checkout Repo
-              uses: actions/checkout@v3
+  mk-windows-bundle:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
 
-            - name: BundleCreate
-              run: cmd /c "windowsBundle.bat"
+      - name: BundleCreate
+        run: cmd /c "windowsBundle.bat"
 
-            - name: showPath
-              run: cmd /c "echo ${{github.workspace}};"    
+      - name: showPath
+        run: cmd /c "echo ${{github.workspace}};"    
 
-            - name: showFiles
-              run: cmd /c "dir"
-            
-            - uses: actions/upload-artifact@v3
-              with:
-                name: TryLean4Bundle.exe
-                path: TryLean4Bundle*.exe
-                if-no-files-found: error
+      - name: showFiles
+        run: cmd /c "dir"
+      
+      - uses: actions/upload-artifact@v3
+        with:
+          name: TryLean4Bundle.exe
+          path: TryLean4Bundle*.exe
+          if-no-files-found: error
 
-    validate-windows-bundle:
-        needs: mk-windows-bundle
-        runs-on: windows-latest
-        steps:
-            - uses: actions/download-artifact@v3
-              id: download
-              with:
-                name: TryLean4Bundle.exe
-                path: ${{ runner.temp }}
+  validate-windows-bundle:
+    needs: mk-windows-bundle
+    runs-on: windows-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        id: download
+        with:
+          name: TryLean4Bundle.exe
+          path: ${{ runner.temp }}
 
-            - name: showFlies
-              run: dir
-              working-directory: ${{ runner.temp }}
+      - name: showFlies
+        run: dir
+        working-directory: ${{ runner.temp }}
 
-            - name: Expand-7zsfx-archive
-              run: |
-                $xpath =  Resolve-Path .\TryLean4Bundle*.exe -Relative
-                Invoke-Expression "$xpath -o""TryLean4BundleExpanded"" -y"
-              working-directory: ${{ runner.temp }}
+      - name: Expand-7zsfx-archive
+        run: |
+          $xpath =  Resolve-Path .\TryLean4Bundle*.exe -Relative
+          Invoke-Expression "$xpath -o""TryLean4BundleExpanded"" -y"
+        working-directory: ${{ runner.temp }}
 
-            - name: showContents
-              run: |
-                cd TryLean4BundleExpanded\TryLean4Bundle
-                dir
-              working-directory: ${{ runner.temp }}
+      - name: showContents
+        run: |
+          cd TryLean4BundleExpanded\TryLean4Bundle
+          dir
+        working-directory: ${{ runner.temp }}
 
-            - name: CheckExecs
-              run: |
-                cd TryLean4BundleExpanded\TryLean4Bundle
-                Elan\bin\lake --version
-                Elan\bin\lean --version
-                PortableGit\bin\git.exe --version
-                VSCodium\bin\codium.cmd --list-extensions
-              working-directory: ${{ runner.temp }} 
+      - name: CheckExecs
+        run: |
+          cd TryLean4BundleExpanded\TryLean4Bundle
+          Elan\bin\lake --version
+          Elan\bin\lean --version
+          PortableGit\bin\git.exe --version
+          VSCodium\bin\codium.cmd --list-extensions
+        working-directory: ${{ runner.temp }} 
 
-            - name: Release for Windows
-              uses: "marvinpinto/action-automatic-releases@latest"
-              with:
-                repo_token: "${{ secrets.GITHUB_TOKEN }}"
-                automatic_release_tag: "latest"
-                prerelease: true
-                files: ${{ runner.temp }}\TryLean4Bundle*.exe
+  release-windows-bundle:
+    needs: validate-windows-bundle
+    runs-on: windows-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        id: download
+        with:
+          name: TryLean4Bundle.exe
+          path: ${{ runner.temp }}
+
+      - name: showLoc
+        run : echo ${{steps.download.outputs.download-path}}
+        
+      - name: Release for Windows
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          files: ${{steps.download.outputs.download-path}}
